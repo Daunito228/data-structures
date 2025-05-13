@@ -13,9 +13,7 @@ Stack::Stack(){
 }
 
 Stack::~Stack(){
-    Node* curr = head;
-    Node* temp;
-    while(curr!=nullptr){
+    while(head!=nullptr){
         remove();
     }
 }
@@ -49,7 +47,7 @@ void Stack::remove(){
 void Stack::print(){
     Node* curr = head;
     while(curr!=nullptr){
-        printf("[index: %d | value: %d]", curr->value.index, curr->value.index);
+        printf("[index: %d | value: %d]", curr->value.index, curr->value.value);
         if(curr->next!=nullptr){
             printf("->");
         }
