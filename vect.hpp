@@ -1,10 +1,11 @@
 #pragma once
 #include <iostream>
 
+template<typename T>
 class Vector
 {
 private:
-    int* arr;
+    T* arr;
     std::size_t size;
     std::size_t capp;
 public:
