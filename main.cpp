@@ -7,30 +7,17 @@ using namespace std;
 
 int main()
 {
-    List<int> list;
-    list.append(4);list.append(1);list.append(7);
-    list.print();
-    /*int arr[11];
-    int num = 222;
-    int low=0, high=10, res=-1;
-    int mid;
-    for(int i=0;i<11;i++){
-        arr[i] = i*2;
+    List<int> list, sorted;
+    int num;
+
+    for(int i=0;i<10;i++){
+        cout << i << ") Enter: ";
+        cin >> num;
+        list.append(num);
     }
-    while(high>=low){
-        mid = (high+low)/2;
-        if(arr[mid]==num){
-            res = mid;
-            break;
-        }
-        else if(arr[mid]>num){
-            high = mid-1;
-        }
-        else{
-            low=mid+1;
-        }
-        cout << high << ' ' << low << ' ' << mid << '\n';
-    }
-    cout << res << '\n';*/
+
+
+    num = list.at(2);
+    cout << num << '\n';
     return 0;
 }
