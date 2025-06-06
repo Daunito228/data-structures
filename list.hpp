@@ -19,11 +19,16 @@ private:
 public:
     List();
     ~List();
+    List& operator=(const List& other);
     void append(T value);
     void print();
     size_t getSize();
     T at(size_t index);
     void removeNode(size_t index);
+    void removeByValue(T value);
+    void clear();
+    bool isEmpty();
+    List* sorted();
 };
 
 //
@@ -38,6 +43,21 @@ List<T>::List(){
 template<typename T>
 List<T>::~List(){
     freeList();
+}
+
+template<typename T>
+List<T>& List<T>::operator=(const List& other){
+    if(this == &other){
+        return *this;
+    }
+    Node* curr = other.head;
+    this->clear();
+    this->sz = other.sz;
+    while(curr!=nullptr){
+        this->append(curr->value);
+        curr=curr->next;
+    }
+    return *this;
 }
 
 template<typename T>
@@ -98,12 +118,12 @@ T List<T>::at(size_t index){
 
 template<typename T>
 typename List<T>::Node* List<T>::getNode(size_t index){
-    if (index >= sz) {
+    if(index >= sz){
         throw std::out_of_range("Index " + std::to_string(index) + " is out of range");
     }
     Node* curr = head;
-    for (size_t i = 0; i < index; i++) {
-        curr = curr->next;
+    for(size_t i=0; i<index; i++){
+        curr=curr->next;
     }
     return curr;
 }
@@ -114,4 +134,71 @@ void List<T>::removeNode(size_t index){
         throw std::out_of_range("Index " + std::to_string(index) + " is out of range");
     }
     Node* curr = head;
+    Node* temp;
+    sz--;
+    if(index==0){
+        temp = head;
+        head=head->next;
+        if(head != nullptr){
+            head->prev=nullptr;
+        }
+        delete temp;
+        return;
+    }
+    for(size_t i=0;i<index-1;i++){
+        curr=curr->next;
+    }
+    temp = curr->next;
+    curr->next = temp->next;
+    if(temp->next!=nullptr){
+        temp->next->prev = curr;
+    }
+    delete temp;
+}
+
+template<typename T>
+void List<T>::removeByValue(T value){
+    Node* curr = head;
+    for(int i=0;i<sz;i++){
+        if(curr->value==value){
+            removeNode(i);
+            return;
+        }
+        curr = curr->next;
+    }
+}
+
+template<typename T>
+void List<T>::clear(){
+    freeList();
+    sz=0;
+    head=nullptr;
+}
+
+template<typename T>
+bool List<T>::isEmpty(){
+    return !head;
+}
+
+template<typename T>
+List<T>* List<T>::sorted(){
+    int minNum = __INT_MAX__;
+    List<T> listCp;
+    listCp = *this;
+    Node* curr = listCp.head;
+    List<T>* sorted = new List<T>;
+
+    while(!listCp.isEmpty()){
+        curr = listCp.head;
+        minNum=__INT_MAX__;
+        while(curr!=nullptr){
+            if(curr->value<minNum){
+                minNum=curr->value;
+            }
+            curr=curr->next;
+        }
+        sorted->append(minNum);
+        listCp.removeByValue(minNum);
+    }
+    return sorted;
 }
