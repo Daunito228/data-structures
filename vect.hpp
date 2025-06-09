@@ -21,6 +21,7 @@ public:
     void pop_back();
     bool isEmpty();
     void clear();
+    Vector conc(const Vector& other);
     void erase(size_t index);
     void insert(size_t index, const T& value);
     void print();
@@ -133,6 +134,26 @@ void Vector<T>::insert(size_t index, const T& value){
     }
     arr[index]=value;
     sz++;
+}
+
+template<typename T>
+Vector<T> Vector<T>::conc(const Vector& other){
+    size_t newCapp=0;
+    if(std::max(capp, other.capp) > sz + other.sz){
+        newCapp = std::max(capp, other.capp);
+    }
+    else{
+        newCapp = sz+other.sz+1;
+    }
+    Vector vecNew(newCapp);
+    vecNew.sz = sz+other.sz;
+    for(size_t i=0;i<sz;i++){
+        vecNew.arr[i] = arr[i];
+    }
+    for(size_t i=0;i<other.sz;i++){
+        vecNew.arr[sz+i] = other.arr[i];
+    }
+    return vecNew;
 }
 
 template<typename T>
